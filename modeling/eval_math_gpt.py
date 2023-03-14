@@ -37,6 +37,8 @@ from dataset.khan_academy import KhanAcademyMathDataset
 from dataset.util import clean_numbers, last_boxed_only, last_boxed_only_string
 from math_equivalence import is_equiv
 
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
 def get_level_type(fname):
     """
     Somewhat inefficient, but much easier than changing dataloader and probably fine for evaluation
@@ -102,11 +104,12 @@ def run_eval(args):
     argsdict = vars(args)
     print(pprint.pformat(argsdict))
 
-    if args.tokenizer_merges_file is not None:
-        tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
-    else:
-        tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
-
+    #if args.tokenizer_merges_file is not None:
+    #    tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
+    #else:
+    #    tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
+    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+    
     eval_data = get_dataset(args)
     for inner_dset in eval_data.datasets:
         inner_dset.tokenizer = tokenizer
@@ -130,12 +133,14 @@ def run_eval(args):
     """
 
     # Set up model
-    if args.load is None:
-        model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
-    else:
-        print(f"Loading model from {args.load}")
-        model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
-        print(f"Successfully loaded model from {args.load}")
+    #if args.load is None:
+    #    model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+    #else:
+    #    print(f"Loading model from {args.load}")
+    #    model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
+    #    print(f"Successfully loaded model from {args.load}")
+    model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+    print("Successfully loaded FLAN-T5-small model")
 
     model = model.eval()
     model = model.cuda()
