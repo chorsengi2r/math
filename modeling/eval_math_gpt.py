@@ -103,12 +103,15 @@ def run_eval(args):
 
     argsdict = vars(args)
     print(pprint.pformat(argsdict))
-
-    #if args.tokenizer_merges_file is not None:
-    #    tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
-    #else:
-    #    tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
-    tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+    
+    if args.use_flan==True:
+        tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+    else:
+        if args.tokenizer_merges_file is not None:
+            tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
+        else:
+            tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
+    
     
     eval_data = get_dataset(args)
     for inner_dset in eval_data.datasets:
@@ -133,14 +136,17 @@ def run_eval(args):
     """
 
     # Set up model
-    #if args.load is None:
-    #    model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
-    #else:
-    #    print(f"Loading model from {args.load}")
-    #    model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
-    #    print(f"Successfully loaded model from {args.load}")
-    model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
-    print("Successfully loaded FLAN-T5-small model")
+    if args.use_flan==True:
+        model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+        print("Successfully loaded FLAN-T5-small model")
+    else:   
+        if args.load is None:
+            model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+        else:
+            print(f"Loading model from {args.load}")
+            model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
+            print(f"Successfully loaded model from {args.load}")
+    
 
     model = model.eval()
     model = model.cuda()
@@ -361,6 +367,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='gpt2', choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
+    parser.add_argument('--use_flan', default=False, type=bool)
     parser.add_argument('--load', default=None, type=str)
     parser.add_argument('--num-beams', default=20, type=int)
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
