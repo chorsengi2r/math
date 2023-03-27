@@ -103,8 +103,8 @@ def run_training(args, train_data):
         args=training_args,
         train_dataset=train_data,
     )
-    trainer.remove_callback(transformers.integrations.TensorBoardCallback)
-    trainer.add_callback(CustomTensorBoardCallback())
+    #trainer.remove_callback(transformers.integrations.TensorBoardCallback)
+    #trainer.add_callback(CustomTensorBoardCallback())
 
     print(f"STARTING TRAINING. save_steps={save_steps}")
     trainer.train()
