@@ -288,7 +288,7 @@ def main():
     parser.add_argument('--MATH-mode', default='mixed_final_boxed_and_full', type=str, choices=['mixed_final_boxed_and_full', 'final_boxed', 'peeking', 'nopack_padding', 'mixed_full_and_peeking', 'mixed_full_and_nopack_padding'])
     parser.add_argument('--MATH-peek-min', default=0.1, type=float)
     parser.add_argument('--MATH-peek-max', default=1.0, type=float)
-    parser.add_argument('--MATH-dataroot', default='./../MATH/*/*.json', type=str) # original default=None
+    parser.add_argument('--MATH-dataroot', default='./../MATH/train/*/*.json', type=str) # original default=None
     parser.add_argument('--stackexchange-dataroot', default=None, type=str)
     parser.add_argument('--dataloader-num-workers', default=1, type=int)
 
