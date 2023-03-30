@@ -34,7 +34,7 @@ from dataset.khan_academy import KhanAcademyMathDataset
 from dataset.util import clean_numbers, last_boxed_only, last_boxed_only_string
 from math_equivalence import is_equiv
 
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, T5Tokenizer, T5ForConditionalGeneration
 
 def get_level_type(fname):
     """
@@ -102,7 +102,7 @@ def run_eval(args):
     print(pprint.pformat(argsdict))
     
     if args.use_flan==True:
-        tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+        tokenizer = T5Tokenizer.from_pretrained("google/" + args.arch)
     else:
         if args.tokenizer_merges_file is not None:
             tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
@@ -134,8 +134,8 @@ def run_eval(args):
 
     # Set up model
     if args.use_flan==True:
-        model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
-        print("Successfully loaded FLAN-T5-small model")
+        model = T5ForConditionalGeneration.from_pretrained("google/" + args.arch)
+        print("Successfully loaded", args.arch, "model")
     else:   
         if args.load is None:
             model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
@@ -184,7 +184,8 @@ def run_eval(args):
                 num_beams=args.num_beams, 
                 early_stopping=True,
                 temperature=1.0,
-                max_length=384 if args.arch == 'gpt2-xl' else 1024
+                #max_length=384 if args.arch == 'gpt2-xl' else 1024
+                max_length=384 if args.use_flan == True else 1024
             )
             
             # logits = model(output_ids).logits
@@ -338,7 +339,8 @@ def get_dataset(args):
                 MATHDataset(
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
-                    max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
+                    #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
+                    max_tokens = 384 if args.use_flan == True else 1024,
                     mode='gpt2-eval', 
                 )
             )
@@ -347,7 +349,8 @@ def get_dataset(args):
                 MATHDataset(
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
-                    max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
+                    #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
+                    max_tokens = 384 if args.use_flan == True else 1024,
                     mode='gpt2-eval',
                     mode_answer=args.math_mode,
                     peek_fraction=args.peek_fraction
