@@ -373,7 +373,7 @@ if __name__ == "__main__":
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
 
     # Dataloading
-    parser.add_argument('--math-dataroot', default=None, type=str)
+    parser.add_argument('--math-dataroot', default='./../MATH/test/*/*.json', type=str) # original default=None
     parser.add_argument('--math-mode', default='gpt2-eval', type=str)
     parser.add_argument('--peek-fraction', type=float, default=1.0)
     
