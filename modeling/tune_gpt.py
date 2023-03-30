@@ -288,7 +288,7 @@ def main():
     parser.add_argument('--MATH-mode', default='mixed_final_boxed_and_full', type=str, choices=['mixed_final_boxed_and_full', 'final_boxed', 'peeking', 'nopack_padding', 'mixed_full_and_peeking', 'mixed_full_and_nopack_padding'])
     parser.add_argument('--MATH-peek-min', default=0.1, type=float)
     parser.add_argument('--MATH-peek-max', default=1.0, type=float)
-    parser.add_argument('--MATH-dataroot', default=None, type=str)
+    parser.add_argument('--MATH-dataroot', default='./../MATH/*/*.json', type=str) # original default=None
     parser.add_argument('--stackexchange-dataroot', default=None, type=str)
     parser.add_argument('--dataloader-num-workers', default=1, type=int)
 
@@ -297,7 +297,7 @@ def main():
     parser.add_argument('--lr', default=5e-5, type=float)
     parser.add_argument('--weight-decay', default=0.05, type=float)
     parser.add_argument('--lr-warmup-steps', default=-1, type=int)
-    parser.add_argument('--batch-size-per-replica', default=8, type=int)
+    parser.add_argument('--batch-size-per-replica', default=2, type=int) # original default = 8
     parser.add_argument('--grad-acc-steps', default=4, type=int)
     parser.add_argument('--local_rank', default=-1, type=int)
     parser.add_argument('--tpu_num_cores', default=None, type=int)
