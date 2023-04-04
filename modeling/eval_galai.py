@@ -68,10 +68,10 @@ def run(size = '6.7b', max=-1):
   
     #model = gal.load_model("standard")  
     
-    print("Loading model..."
+    print("Loading model...")
     tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size)
     model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
-    print("Model loaded."
+    print("Model loaded.")
           
     outputs = []
     answers = []
@@ -87,7 +87,7 @@ def run(size = '6.7b', max=-1):
     total = 0
     
     time.sleep(5)
-    print("Running eval..."
+    print("Running eval...")
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
             print(subdir, file)
