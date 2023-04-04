@@ -83,6 +83,7 @@ def run(size = '6.7b', max=-1):
     total = 0
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
+            print(subdir, file)
             fnames_list.append(os.path.join(subdir, file))
             with open(os.path.join(subdir, file), 'r') as fp:
                 try:
