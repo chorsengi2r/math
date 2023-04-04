@@ -87,9 +87,12 @@ def run(size = '6.7b', max=-1):
     total = 0
     
     time.sleep(5)
-    print("Running eval...")
+    print("Running eval in 5..")
+    time.sleep(5)
+    file_count = 0
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
+            file_count+=1
             print(subdir, file)
             fnames_list.append(os.path.join(subdir, file))
             with open(os.path.join(subdir, file), 'r') as fp:
@@ -146,8 +149,10 @@ def run(size = '6.7b', max=-1):
                 break
         if max > 0 and total > max:
             break
-    
+    print("Problem count", file_count)
     print("All problems evaluated.")
+    time.sleep(5)
+    
     with open("outputs_answers_galai_{}.txt".format(size), "w+") as f:
         for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
             f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
