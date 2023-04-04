@@ -61,7 +61,7 @@ train_prompt += "\n" + "###" + "\n" + "Problem: Calculate $6 \\cdot 8\\frac{1}{3
 train_prompt += "\n" + "###" + "\n" + "Problem: When the binary number $100101110010_2$ is divided by 4, what is the remainder (give your answer in base 10)?" + "\n" + "Answer: $2$"
 train_prompt += "\n" + "###" + "\n" + "Problem: How many zeros are at the end of the product 25 $\\times$ 240?" + "\n" + "Answer: $3$" + "\n" + "###"
 
-rootdir = "./../MATH/data/test"
+rootdir = "./../MATH/test"
 
 
 def run(size = '6.7b', max=-1):
@@ -91,9 +91,9 @@ def run(size = '6.7b', max=-1):
     time.sleep(5)
     file_count = 0
     for subdir, dirs, files in os.walk(rootdir):
-        print (subdir)
-        print (dirs)
-        print('---------------------------------------------')
+        #print (subdir)
+        #print (dirs)
+        #print('---------------------------------------------')
         for file in files:
             file_count+=1
             print(subdir, file)
