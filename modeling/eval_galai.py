@@ -91,6 +91,9 @@ def run(size = '6.7b', max=-1):
     time.sleep(5)
     file_count = 0
     for subdir, dirs, files in os.walk(rootdir):
+        print (subdir)
+        print (dirs)
+        print('---------------------------------------------')
         for file in files:
             file_count+=1
             print(subdir, file)
