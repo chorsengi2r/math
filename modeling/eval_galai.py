@@ -147,7 +147,7 @@ def run(size = '6.7b', max=-1):
         if max > 0 and total > max:
             break
     
-    print("All problems evaluated."
+    print("All problems evaluated.")
     with open("outputs_answers_galai_{}.txt".format(size), "w+") as f:
         for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
             f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
