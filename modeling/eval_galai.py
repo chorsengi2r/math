@@ -63,11 +63,11 @@ train_prompt += "\n" + "###" + "\n" + "Problem: How many zeros are at the end of
 rootdir = "../modeling/MATH/data/test"
 
 
-def run(max=-1):
+def run(size = '6.7b', max=-1):
   
     #model = gal.load_model("standard")  
-    tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-6.7b")
-    model = OPTForCausalLM.from_pretrained("facebook/galactica-6.7b", device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size")
+    model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
   
     outputs = []
     answers = []
@@ -139,7 +139,7 @@ def run(max=-1):
         if max > 0 and total > max:
             break
 
-    with open("outputs_answers_gpt3_{}.txt".format(engine), "w+") as f:
+    with open("outputs_answers_galai_{}.txt".format(size), "w+") as f:
         for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
             f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
 
