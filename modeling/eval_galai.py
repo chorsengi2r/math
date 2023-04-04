@@ -13,12 +13,12 @@ def call_engine(train_prompt, problem, tokenizer, model):
     '''
     Given a problem, returns the most likely answer determined by the Galactica engine 
     '''
-    test_question = "\n" + problem + "\n" + "Answer: $"
+    test_question = "\n" + "Problem: " + problem + "\n" + "Answer: $"
     prompt = train_prompt + test_question
     # print(len(prompt))
     input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
     outputs = model.generate(input_ids)
-    final_answer = tokenizer.decode(outputs[0])
+    final_answer = tokenizer.decode(outputs[0]).split("Answer: ")[-1]
     #num_tokens = 20
     #c = openai.Completion.create(
     #                    engine=engine,
