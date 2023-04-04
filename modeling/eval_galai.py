@@ -6,6 +6,7 @@ import json
 from dataset.util import clean_numbers, last_boxed_only, last_boxed_only_string
 from math_equivalence import is_equiv
 from transformers import pipeline, AutoTokenizer, OPTForCausalLM
+import time
 
 
 def call_engine(train_prompt, problem, tokenizer, model):
@@ -66,9 +67,12 @@ rootdir = "../modeling/MATH/data/test"
 def run(size = '6.7b', max=-1):
   
     #model = gal.load_model("standard")  
+    
+    print("Loading model..."
     tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size)
     model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
-  
+    print("Model loaded."
+          
     outputs = []
     answers = []
     types = []
@@ -81,6 +85,9 @@ def run(size = '6.7b', max=-1):
     level_cors = {}
     correct = 0
     total = 0
+    
+    time.sleep(5)
+    print("Running eval..."
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
             print(subdir, file)
@@ -139,7 +146,8 @@ def run(size = '6.7b', max=-1):
                 break
         if max > 0 and total > max:
             break
-
+    
+    print("All problems evaluated."
     with open("outputs_answers_galai_{}.txt".format(size), "w+") as f:
         for k, (output, answer, prob_type, prob_level, fname) in enumerate(zip(outputs, answers, types, levels, fnames_list)):
             f.write("{} TYPE: {} | LEVEL: {} | OUTPUT: {} | ANSWER: {} | FNAME: {}\n".format(k, prob_type, prob_level, output, answer, fname))
