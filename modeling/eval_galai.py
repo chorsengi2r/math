@@ -66,7 +66,7 @@ rootdir = "../modeling/MATH/data/test"
 def run(size = '6.7b', max=-1):
   
     #model = gal.load_model("standard")  
-    tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size")
+    tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size)
     model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
   
     outputs = []
