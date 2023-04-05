@@ -101,7 +101,7 @@ def run(size = '6.7b', short = True, max=-1):
         #print('---------------------------------------------')
         for file in files:
             file_count+=1
-            print("File path:", subdir, file)
+            print("File path:", subdir, file, "\n")
             fnames_list.append(os.path.join(subdir, file))
             with open(os.path.join(subdir, file), 'r') as fp:
                 try:
@@ -127,11 +127,11 @@ def run(size = '6.7b', short = True, max=-1):
                 answers.append(answer)
 
                 print("Model output:")
-                print(model_output)
+                print(model_output, "\n")
                 print("")
                 print("Correct answer:")
-                print(answer)
-                print("--------------------------------------------")
+                print(answer, "\n")
+                print("--------------------------------------------\n")
 
                 try:
                     equiv = is_equiv(model_output, answer)
@@ -156,8 +156,8 @@ def run(size = '6.7b', short = True, max=-1):
                 total += 1
 
                 print("Correct so far:", str(correct) + "/" + str(total))
-                print("---------------------------------------------------------------------------")
-                print("")
+                print("---------------------------------------------------------------------------\n")
+                
 
             if max > 0 and total > max:
                 break
