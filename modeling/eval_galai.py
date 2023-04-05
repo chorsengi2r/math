@@ -101,7 +101,7 @@ def run(size = '6.7b', short = True, max=-1):
         #print('---------------------------------------------')
         for file in files:
             file_count+=1
-            print(subdir, file)
+            print("File path:", subdir, file)
             fnames_list.append(os.path.join(subdir, file))
             with open(os.path.join(subdir, file), 'r') as fp:
                 try:
@@ -128,6 +128,7 @@ def run(size = '6.7b', short = True, max=-1):
 
                 print("Model output:")
                 print(model_output)
+                print("")
                 print("Correct answer:")
                 print(answer)
                 print("--------------------------------------------")
@@ -154,7 +155,9 @@ def run(size = '6.7b', short = True, max=-1):
                     correct += 1
                 total += 1
 
-                print(str(correct) + "/" + str(total))
+                print("Correct so far:", str(correct) + "/" + str(total))
+                print("---------------------------------------------------------------------------")
+                print("")
 
             if max > 0 and total > max:
                 break
