@@ -10,7 +10,7 @@ import time
 
 short = True
 
-def call_engine(train_prompt, problem, tokenizer=None, model, max_new = 100, short = True):
+def call_engine(train_prompt, problem, model, tokenizer=None, max_new = 100, short = True):
     '''
     Given a problem, returns the most likely answer determined by the Galactica engine 
     '''
@@ -118,7 +118,7 @@ def run(size = '6.7b', short = True, max=-1):
                 if short:
                     model_output = call_engine(train_prompt, problem_data["problem"], model)
                 else:
-                    model_output = call_engine(train_prompt, problem_data["problem"], tokenizer, model, short)
+                    model_output = call_engine(train_prompt, problem_data["problem"], model, tokenizer, short)
                 answer = remove_boxed(last_boxed_only_string(problem_data["solution"]))
 
                 levels.append(prob_level)
