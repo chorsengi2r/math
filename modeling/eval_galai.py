@@ -18,7 +18,8 @@ def call_engine(train_prompt, problem, model, tokenizer=None, max_new = 100, sho
     prompt = train_prompt + test_question
     # print(len(prompt))
     if short:
-        final_answer = model.generate(prompt, max_new_tokens = max_new).split("Answer:")[-1]
+        #final_answer = model.generate(prompt, max_new_tokens = max_new).split("Answer:")[-1]
+        final_answer = model.generate(prompt, max_new_tokens = max_new)
     else:
         input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
         outputs = model.generate(input_ids, max_new_tokens = max_new)
