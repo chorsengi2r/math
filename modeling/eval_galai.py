@@ -8,17 +8,21 @@ from math_equivalence import is_equiv
 from transformers import pipeline, AutoTokenizer, OPTForCausalLM
 import time
 
+short = True
 
-def call_engine(train_prompt, problem, tokenizer, model):
+def call_engine(train_prompt, problem, tokenizer=None, model, max_new = 100, short = True):
     '''
     Given a problem, returns the most likely answer determined by the Galactica engine 
     '''
     test_question = "\n" + "Problem: " + problem + "\n" + "Answer: $"
     prompt = train_prompt + test_question
     # print(len(prompt))
-    input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
-    outputs = model.generate(input_ids)
-    final_answer = tokenizer.decode(outputs[0]).split("Answer: ")[-1]
+    if short:
+        final_answer = model.generate(prompt, max_new_tokens = max_new).split("Answer:")[-1]
+    else:
+        input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
+        outputs = model.generate(input_ids, max_new_tokens = max_new)
+        final_answer = tokenizer.decode(outputs[0]).split("Answer: ")[-1]
     #num_tokens = 20
     #c = openai.Completion.create(
     #                    engine=engine,
@@ -64,13 +68,14 @@ train_prompt += "\n" + "###" + "\n" + "Problem: How many zeros are at the end of
 rootdir = "./../MATH/test"
 
 
-def run(size = '6.7b', max=-1):
+def run(size = '6.7b', short = True, max=-1):
   
-    #model = gal.load_model("standard")  
-    
     print("Loading model...")
-    tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size)
-    model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
+    if short:
+        model = gal.load_model("standard")  
+    else:
+        tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-"+ size)
+        model = OPTForCausalLM.from_pretrained("facebook/galactica-" + size, device_map="auto")
     print("Model loaded.")
           
     outputs = []
@@ -110,7 +115,10 @@ def run(size = '6.7b', max=-1):
                     prob_level = int(prob_level.split("Level ")[1])
                 except:
                     prob_level = None
-                model_output = call_engine(train_prompt, problem_data["problem"], tokenizer, model)
+                if short:
+                    model_output = call_engine(train_prompt, problem_data["problem"], model)
+                else:
+                    model_output = call_engine(train_prompt, problem_data["problem"], tokenizer, model, short)
                 answer = remove_boxed(last_boxed_only_string(problem_data["solution"]))
 
                 levels.append(prob_level)
