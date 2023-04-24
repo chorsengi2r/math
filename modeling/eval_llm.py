@@ -371,7 +371,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='flan-t5-xxl') # choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
     parser.add_argument('--use_flan', default=False, type=bool) # originally was False
-    parser.add_argument('--load', default='./checkpoints/galai_tuned/04-24-2023__15:32:02', type=str) # default=None
+    parser.add_argument('--load', default='./checkpoints/galai_tuned/04-24-2023__15:32:02/final_checkpoint', type=str) # default=None
     parser.add_argument('--num-beams', default=20, type=int)
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
 
