@@ -55,7 +55,8 @@ def run_training(args, train_data):
         model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
         print(f"Loaded model from {args.load}")
     else:
-        model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+        #model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-125m", device_map="auto")
 
     start_epoch = 0
     start_iteration = 0
@@ -193,7 +194,8 @@ def get_tokenizer_gpt(args):
     if args.tokenizer_merges_file is not None:
         tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
     else:
-        tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
+        #tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
+        tokenizer = transformers.AutoTokenizer.from_pretrained("facebook/galactica-125m")
     return tokenizer
 
 def get_dataset(args): 
@@ -280,10 +282,12 @@ def main():
 
     # Dataloading
     parser.add_argument('--khan-mode', default='mixed_hints', type=str)
-    parser.add_argument('--khan-dataroot', default='./../AMPS/amps/khan/*/*.json', type=str) # original default = None
+    #parser.add_argument('--khan-dataroot', default='./../AMPS/amps/khan/*/*.json', type=str) # original default = None
+    parser.add_argument('--khan-dataroot', default=None, type=str) # original default = None
     parser.add_argument('--khan-latex-mask', default=False, action='store_true')
     parser.add_argument('--deepmind-dataroot', default=None, type=str, action='append')
-    parser.add_argument('--mathematica-dataroot', default='./../AMPS/amps/mathematica/*/*/*.txt', type=str, action='append') # original default = None
+    #parser.add_argument('--mathematica-dataroot', default='./../AMPS/amps/mathematica/*/*/*.txt', type=str, action='append') # original default = None
+    parser.add_argument('--mathematica-dataroot', default=None, type=str, action='append') # original default = None
     parser.add_argument('--mathematica-with-steps-dataroot', default=None, type=str, action='append')
     parser.add_argument('--MATH-mode', default='mixed_final_boxed_and_full', type=str, choices=['mixed_final_boxed_and_full', 'final_boxed', 'peeking', 'nopack_padding', 'mixed_full_and_peeking', 'mixed_full_and_nopack_padding'])
     parser.add_argument('--MATH-peek-min', default=0.1, type=float)
@@ -303,7 +307,7 @@ def main():
     parser.add_argument('--tpu_num_cores', default=None, type=int)
 
     # Logging and stuff
-    parser.add_argument('--save-dir', default="checkpoints/TEMP", type=str)
+    parser.add_argument('--save-dir', default="checkpoints/galai_tuned", type=str)
     parser.add_argument('--save-steps', default=0, type=int)
     parser.add_argument('--log-freq', default=5, type=int)
 
