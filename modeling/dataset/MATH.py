@@ -97,7 +97,7 @@ class MATHDataset(BaseMathDataset):
             question_ids     = torch.LongTensor(self.tokenizer.encode("\nQUESTION:\n" + question, verbose=False))
             sep_ids_2        = torch.LongTensor(self.tokenizer.encode("\nFULL SOLUTION:\n", verbose=False))
             answer_ids       = self.tokenizer.encode(answer, verbose=False)
-            answer_ids.append(self.tokenizer.eos_token_id)
+            #answer_ids.append(self.tokenizer.eos_token_id) # temp removing eos_token_id as galactica tokenizer does not have this, will find better solution later
             answer_ids       = torch.LongTensor(answer_ids)
             
             input_ids = torch.cat([
