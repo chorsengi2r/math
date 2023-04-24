@@ -95,10 +95,11 @@ class MATHDataset(BaseMathDataset):
             answer_final = last_boxed_only_string(answer)
 
             question_ids     = torch.LongTensor(self.tokenizer.encode("\nQUESTION:\n" + question, verbose=False))
-            
+            print(questions_ids)
             sep_ids_2        = torch.LongTensor(self.tokenizer.encode("\nFULL SOLUTION:\n", verbose=False))
             answer_ids       = self.tokenizer.encode(answer, verbose=False)
             answer_ids.append(self.tokenizer.eos_token_id)
+            print(answers_ids)
             answer_ids       = torch.LongTensor(answer_ids)
             
             input_ids = torch.cat([
