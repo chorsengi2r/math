@@ -343,7 +343,7 @@ def get_dataset(args):
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
                     #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
-                    max_tokens = 384 # if args.use_flan == True else 1024,
+                    max_tokens = 384, # if args.use_flan == True else 1024,
                     mode='gpt2-eval', 
                 )
             )
@@ -353,7 +353,7 @@ def get_dataset(args):
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
                     #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
-                    max_tokens = 384 # if args.use_flan == True else 1024,
+                    max_tokens = 384, # if args.use_flan == True else 1024,
                     mode='gpt2-eval',
                     mode_answer=args.math_mode,
                     peek_fraction=args.peek_fraction
