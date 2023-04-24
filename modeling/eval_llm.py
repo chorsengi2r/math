@@ -144,7 +144,7 @@ def run_eval(args):
         else:
             print(f"Loading model from {args.load}")
             #model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
-            model = AutoModelForCausalLM.from_pretrained(args.load)
+            model = OPTForCausalLM.from_pretrained(args.load)
             print(f"Successfully loaded model from {args.load}")
     
 
