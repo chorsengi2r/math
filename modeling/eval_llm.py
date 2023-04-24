@@ -16,6 +16,7 @@ import sys
 import json
 import time
 import transformers
+from transformers import AutoTokenizer, OPTForCausalLM
 import numpy as np
 
 from tqdm import tqdm
@@ -107,8 +108,8 @@ def run_eval(args):
         if args.tokenizer_merges_file is not None:
             tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
         else:
-            tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
-    
+            #tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
+            tokenizer = AutoTokenizer.from_pretrained("facebook/galactica-125m")
     
     eval_data = get_dataset(args)
     for inner_dset in eval_data.datasets:
@@ -138,10 +139,12 @@ def run_eval(args):
         print("Successfully loaded", args.arch, "model")
     else:   
         if args.load is None:
-            model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+            # model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
+            model = AutoModelForCausalLM.from_pretrained("facebook/galactica-125m")
         else:
             print(f"Loading model from {args.load}")
-            model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
+            #model = transformers.GPT2LMHeadModel.from_pretrained(args.load)
+            model = AutoModelForCausalLM.from_pretrained(args.load)
             print(f"Successfully loaded model from {args.load}")
     
 
@@ -185,7 +188,7 @@ def run_eval(args):
                 early_stopping=True,
                 temperature=1.0,
                 #max_length=384 if args.arch == 'gpt2-xl' else 1024
-                max_length=384 if args.use_flan == True else 1024
+                max_length=384 # if args.use_flan == True else 1024
             )
             
             # logits = model(output_ids).logits
@@ -340,7 +343,7 @@ def get_dataset(args):
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
                     #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
-                    max_tokens = 384 if args.use_flan == True else 1024,
+                    max_tokens = 384 # if args.use_flan == True else 1024,
                     mode='gpt2-eval', 
                 )
             )
@@ -350,7 +353,7 @@ def get_dataset(args):
                     dataroot=args.math_dataroot, 
                     tokenizer=None, # Set in run_training(), not in dataset creation 
                     #max_tokens=384 if args.arch == 'gpt2-xl' else 1024, 
-                    max_tokens = 384 if args.use_flan == True else 1024,
+                    max_tokens = 384 # if args.use_flan == True else 1024,
                     mode='gpt2-eval',
                     mode_answer=args.math_mode,
                     peek_fraction=args.peek_fraction
@@ -367,8 +370,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='flan-t5-xxl') # choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
-    parser.add_argument('--use_flan', default=True, type=bool) # originally was False
-    parser.add_argument('--load', default=None, type=str)
+    parser.add_argument('--use_flan', default=False, type=bool) # originally was False
+    parser.add_argument('--load', default='./checkpoints/galai_tuned/04-24-2023__15:32:02', type=str) # default=None
     parser.add_argument('--num-beams', default=20, type=int)
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
 
