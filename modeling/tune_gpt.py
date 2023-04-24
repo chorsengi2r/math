@@ -221,7 +221,7 @@ def get_dataset(args):
                 train_data.append(MathematicaMathDataset(
                     dataroot=no_steps_flist_fname,
                     tokenizer=tokenizer,
-                    max_tokens=384 # if args.arch == 'gpt2-xl' else 1024,
+                    max_tokens=384 if args.arch == 'gpt2-xl' else 1024,
                     mode='gpt2',
                     len_multiplier=len_multiplier
                 ))
@@ -230,7 +230,7 @@ def get_dataset(args):
                 train_data.append(MathematicaWithStepsMathDataset(
                     dataroot=with_steps_flist_fname,
                     tokenizer=tokenizer,
-                    max_tokens=384 # if args.arch == 'gpt2-xl' else 1024,
+                    max_tokens=384 if args.arch == 'gpt2-xl' else 1024,
                     mode='gpt2',
                     len_multiplier=len_multiplier
                 ))
@@ -241,7 +241,7 @@ def get_dataset(args):
         train_data.append(KhanAcademyMathDataset(
             dataroot=dirname,
             tokenizer=tokenizer,
-            max_tokens=384 # if args.arch == 'gpt2-xl' else 1024,
+            max_tokens=384 if args.arch == 'gpt2-xl' else 1024,
             mode='gpt2',
             mode_answer=args.khan_mode,
             len_multiplier=len_multiplier,
@@ -252,7 +252,7 @@ def get_dataset(args):
         train_data.append(MATHDataset(
             dataroot=args.MATH_dataroot,
             tokenizer=tokenizer,
-            max_tokens=384 # if args.arch == 'gpt2-xl' else 1024,
+            max_tokens=384 if args.arch == 'gpt2-xl' else 1024,
             mode='gpt2',
             mode_answer=args.MATH_mode,
             len_multiplier=1.0,
