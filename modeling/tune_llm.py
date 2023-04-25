@@ -56,7 +56,7 @@ def run_training(args, train_data):
         print(f"Loaded model from {args.load}")
     else:
         #model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
-        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-125m", device_map="auto")
+        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-1.3b", device_map="auto")
 
     start_epoch = 0
     start_iteration = 0
@@ -195,7 +195,7 @@ def get_tokenizer_gpt(args):
         tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
     else:
         #tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
-        tokenizer = transformers.AutoTokenizer.from_pretrained("facebook/galactica-125m")
+        tokenizer = transformers.AutoTokenizer.from_pretrained("facebook/galactica-1.3b")
     return tokenizer
 
 def get_dataset(args): 
