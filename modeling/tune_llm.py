@@ -277,7 +277,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='gpt2', choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
-    parser.add_argument('--size', default='1.3b', choices=['125m', '1.3b', '6.7b', '30b', '120b'])
+    parser.add_argument('--size', default='1.3b', choices=['125m', '1.3b', '6.7b', '30b', '120b'], type=str)
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
     parser.add_argument('--load', default=None, type=str)
 
