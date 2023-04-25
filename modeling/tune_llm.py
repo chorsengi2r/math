@@ -56,7 +56,7 @@ def run_training(args, train_data):
         print(f"Loaded model from {args.load}")
     else:
         #model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
-        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-6.7b", device_map="auto")
+        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto")
 
     start_epoch = 0
     start_iteration = 0
@@ -195,7 +195,7 @@ def get_tokenizer_gpt(args):
         tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch, merges_file=args.tokenizer_merges_file)
     else:
         #tokenizer = transformers.GPT2Tokenizer.from_pretrained(args.arch)
-        tokenizer = transformers.AutoTokenizer.from_pretrained("facebook/galactica-6.7b")
+        tokenizer = transformers.AutoTokenizer.from_pretrained("facebook/galactica-" + args.size)
     return tokenizer
 
 def get_dataset(args): 
@@ -277,6 +277,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='gpt2', choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
+    parser.add_argument('--size', default='1.3b', choices=['125m', '1.3b', '6.7b', '30b', '120b'])
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
     parser.add_argument('--load', default=None, type=str)
 
@@ -307,7 +308,7 @@ def main():
     parser.add_argument('--tpu_num_cores', default=None, type=int)
 
     # Logging and stuff
-    parser.add_argument('--save-dir', default="checkpoints/galai_6.7b", type=str)
+    parser.add_argument('--save-dir', default="checkpoints/galai_1.3b", type=str)
     parser.add_argument('--save-steps', default=0, type=int)
     parser.add_argument('--log-freq', default=5, type=int)
 
