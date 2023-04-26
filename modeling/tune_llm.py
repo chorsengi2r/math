@@ -58,6 +58,8 @@ def run_training(args, train_data):
         #model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
         if args.load_in_8bit:
             model =  transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto", load_in_8bit=True)
+        elif args.torch_dtype16:
+            model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto", torch_dtype=torch.float16)
         else:
             model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto")
 
