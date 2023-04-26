@@ -56,7 +56,10 @@ def run_training(args, train_data):
         print(f"Loaded model from {args.load}")
     else:
         #model = transformers.GPT2LMHeadModel.from_pretrained(args.arch)
-        model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto")
+        if args.load_in_8bit:
+            model =  transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto", load_in_8bit=True)
+        else:
+            model = transformers.OPTForCausalLM.from_pretrained("facebook/galactica-" + args.size, device_map="auto")
 
     start_epoch = 0
     start_iteration = 0
@@ -278,6 +281,8 @@ def main():
     parser = argparse.ArgumentParser(description="Language Modelling on Code")
     parser.add_argument('--arch', default='gpt2', choices=transformers.GPT2_PRETRAINED_MODEL_ARCHIVE_LIST)
     parser.add_argument('--size', default='1.3b', choices=['125m', '1.3b', '6.7b', '30b', '120b'], type=str)
+    parser.add_argument('--load_in_8bit', default = False, type=bool)
+    parser.add_argument('--torch_dtype16', default = False, type=bool)
     parser.add_argument('--tokenizer-merges-file', default=None, type=str)
     parser.add_argument('--load', default=None, type=str)
 
