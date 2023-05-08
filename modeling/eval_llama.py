@@ -207,5 +207,5 @@ if __name__ == "__main__":
     #engines = ["davinci", "curie", "babbage", "ada"][::-1]
     #for engine in engines:
         #run(engine)
-    run()
+    run(llama_path)
     
