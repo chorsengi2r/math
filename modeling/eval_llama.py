@@ -4,8 +4,7 @@ import operator
 import json
 from dataset.util import clean_numbers, last_boxed_only, last_boxed_only_string
 from math_equivalence import is_equiv
-from transformers import pipeline, AutoTokenizer, OPTForCausalLM
-from transformers import LlamaForCausalLM, LlamaTokenizer
+from transformers import pipeline, LlamaForCausalLM, LlamaTokenizer
 import time
 
 short = True
