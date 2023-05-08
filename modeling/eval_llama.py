@@ -127,7 +127,7 @@ def run_eval(args):
     """
 
     # Set up model
-    print("Loading model..."
+    print("Loading model...")
     model = LlamaForCausalLM.from_pretrained("./../../llama/hf_weights/7B")
     print("Successfully loaded llama model")
     
