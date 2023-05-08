@@ -8,7 +8,7 @@ from transformers import pipeline, LlamaForCausalLM, LlamaTokenizer
 import time
 
 short = True
-llama_path = '../..llama/hf_weights/7B'
+llama_path = './../..llama/hf_weights/7B'
 
 def call_engine(train_prompt, problem, model, tokenizer=None, max_new = 100, short = True):
     '''
